@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean id="auditAspect" class="mojo.dao.AuditAspect">
+		<property name="context" ref="auditContext" />
+		<!-- NOTE: auditContext omitted -->
+	</bean>
+
+	<aop:config proxy-target-class="true">
+
+		<aop:aspect ref="auditAspect">
+			<aop:pointcut id="insertOperation" expression="execution(* *.dao..*Repository.insert(..)) and args(query)" />
+			<aop:before pointcut-ref="insertOperation" method="insert" />
+		</aop:aspect>
+
+		<aop:aspect ref="auditAspect">
+			<aop:pointcut id="updateOperation" expression="execution(* *.dao..*Repository.update(..)) and args(query)" />
+			<aop:before pointcut-ref="updateOperation" method="update" />
+		</aop:aspect>
+
+	</aop:config>
+
+	<!-- Generic Repository (untyped - operates on anything) -->
+	<bean id="repository" class="mojo.dao.core.jpa.JpaRepository" />
+
+	<!-- Generic Detail Repository (abstract definition only) -->
+	<bean id="subRepository" class="mojo.dao.core.jpa.JpaSubRepository" abstract="true" />
+
+	<!-- Generic Repositories -->
+
+	<bean id="nodeRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.node.Node" />
+	</bean>
+
+	<bean id="nodeRuleRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.node.NodeRule" />
+	</bean>
+
+	<bean id="postRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.post.Post" />
+	</bean>
+
+	<bean id="countryRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.user.Country" />
+	</bean>
+
+	<bean id="languageRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.user.Language" />
+	</bean>
+
+	<bean id="userRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.user.User" />
+	</bean>
+
+	<bean id="userGroupRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.user.UserGroup" />
+	</bean>
+
+	<!-- Custom Repositories -->
+
+	<bean id="loginRepository" class="mojo.dao.service.login.LoginRepository" />
+
+</beans>

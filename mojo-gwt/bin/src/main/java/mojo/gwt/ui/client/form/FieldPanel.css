@@ -1,0 +1,26 @@
+.panel {
+	overflow: hidden;
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
+	border-radius: 3px;
+	padding: 0.25em 0.5em 0.5em;
+}
+
+.focus {
+	border-color: #C2D7EF;
+	background-color: #DFEFFF;
+}
+
+.error {
+	border-color: #EFC2C4;
+	background-color: #FFDFE0;
+}
+
+.field {
+}
+
+.label {
+	margin: 5px 0;
+	font-weight: bold;
+}

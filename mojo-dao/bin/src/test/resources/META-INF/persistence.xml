@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+             version="1.0">
+
+	<persistence-unit name="DEFAULT" transaction-type="RESOURCE_LOCAL">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<!-- standard entities -->
+
+		<class>mojo.dao.model.node.Node</class>
+		<class>mojo.dao.model.node.NodeRule</class>
+		<class>mojo.dao.model.post.Post</class>
+		<class>mojo.dao.model.user.Country</class>
+		<class>mojo.dao.model.user.Language</class>
+		<class>mojo.dao.model.user.OpenID</class>
+		<class>mojo.dao.model.user.User</class>
+		<class>mojo.dao.model.user.UserGroup</class>
+
+		<!-- test entities -->
+
+		<class>mojo.dao.test.model.Person</class>
+		<class>mojo.dao.test.model.Pet</class>
+		<class>mojo.dao.test.model.Phone</class>
+
+		<exclude-unlisted-classes />
+
+	</persistence-unit>
+
+</persistence>
