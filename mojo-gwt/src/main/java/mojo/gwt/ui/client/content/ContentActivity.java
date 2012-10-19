@@ -67,7 +67,8 @@ public class ContentActivity extends BaseActivity<ContentPlace> {
 
 			@Override
 			public void onResponseReceived(Request request, Response response) {
-				if (response.getStatusCode() == Response.SC_OK) {
+				switch (response.getStatusCode()) {
+				case Response.SC_OK:
 					String text = response.getText();
 
 					int bgn = text.indexOf(CONTENT_BEGIN);
@@ -81,6 +82,10 @@ public class ContentActivity extends BaseActivity<ContentPlace> {
 						view.setActivity(ContentActivity.this);
 						container.setWidget(view);
 					}
+
+					break;
+				case Response.SC_FORBIDDEN:
+					getClientFactory().requireLogin();
 				}
 
 				WebUtils.hideLoadingMask();

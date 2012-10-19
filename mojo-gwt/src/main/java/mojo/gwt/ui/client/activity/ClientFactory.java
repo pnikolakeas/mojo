@@ -28,4 +28,6 @@ public interface ClientFactory {
 	String getMainContainerId();
 
 	String getMainComponentId();
+
+	void requireLogin();
 }
