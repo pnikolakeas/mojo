@@ -62,8 +62,4 @@
 		<property name="entityType" value="mojo.dao.model.user.UserGroup" />
 	</bean>
 
-	<!-- Custom Repositories -->
-
-	<bean id="loginRepository" class="mojo.dao.service.login.LoginRepository" />
-
 </beans>

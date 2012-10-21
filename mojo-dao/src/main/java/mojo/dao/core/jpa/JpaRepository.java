@@ -40,7 +40,9 @@ import mojo.dao.core.spec.Update;
 
 public class JpaRepository<E> implements Repository<E> {
 
+	@PersistenceContext
 	private EntityManager entityManager;
+
 	private Class<? extends E> entityType;
 	private Map<Class<?>, JpaExecutor> executors;
 
@@ -60,19 +62,18 @@ public class JpaRepository<E> implements Repository<E> {
 		return entityManager;
 	}
 
-	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
-	}
-
-	public Class<? extends E> getEntityType() {
-		return entityType;
 	}
 
 	/**
 	 * Configuration property (optional).<br />
 	 * Overrides the same Operation property before execution.
 	 */
+	public Class<? extends E> getEntityType() {
+		return entityType;
+	}
+
 	public void setEntityType(Class<? extends E> entityType) {
 		this.entityType = entityType;
 	}

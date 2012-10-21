@@ -18,14 +18,35 @@ package mojo.dao.service.login;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import mojo.dao.core.jpa.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import mojo.dao.model.user.Country;
 import mojo.dao.model.user.Language;
+import mojo.dao.model.user.OpenID;
 import mojo.dao.model.user.User;
+import mojo.dao.model.user.UserGroup;
 
-public class LoginRepository extends JpaRepository<Object> {
+@Repository
+public class LoginRepository {
+
+	@PersistenceContext
+	private EntityManager entityManager;
+
+	public void createUser(User user) {
+		entityManager.persist(user);
+	}
+
+	public void createUserGroup(UserGroup userGroup) {
+		entityManager.persist(userGroup);
+	}
+
+	public void createOpenID(OpenID openID) {
+		entityManager.persist(openID);
+	}
 
 	@SuppressWarnings("unchecked")
 	public User findUserByNicknameOrEmail(String username) {
@@ -36,7 +57,7 @@ public class LoginRepository extends JpaRepository<Object> {
 		sb.append("left join fetch u.language l ");
 		sb.append("where u.nickname = :username or u.email = :username");
 
-		Query query = getEntityManager().createQuery(sb.toString());
+		Query query = entityManager.createQuery(sb.toString());
 		query.setParameter("username", username);
 
 		List<User> users = query.getResultList();
@@ -58,7 +79,7 @@ public class LoginRepository extends JpaRepository<Object> {
 		sb.append("left join fetch u.language l ");
 		sb.append("where o.address = :identifier");
 
-		Query query = getEntityManager().createQuery(sb.toString());
+		Query query = entityManager.createQuery(sb.toString());
 		query.setParameter("identifier", identifier);
 
 		List<User> users = query.getResultList();
@@ -77,7 +98,7 @@ public class LoginRepository extends JpaRepository<Object> {
 		sb.append("from Country c ");
 		sb.append("where c.code = :code");
 
-		Query query = getEntityManager().createQuery(sb.toString());
+		Query query = entityManager.createQuery(sb.toString());
 		query.setParameter("code", code);
 
 		List<Country> countries = query.getResultList();
@@ -96,7 +117,7 @@ public class LoginRepository extends JpaRepository<Object> {
 		sb.append("from Language l ");
 		sb.append("where l.code = :code");
 
-		Query query = getEntityManager().createQuery(sb.toString());
+		Query query = entityManager.createQuery(sb.toString());
 		query.setParameter("code", code);
 
 		List<Language> languages = query.getResultList();
