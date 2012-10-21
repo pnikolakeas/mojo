@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import mojo.dao.model.user.User;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/login/basic")
 public class BasicLoginController extends AbstractLoginController {
 
 	private static final String USERNAME_PARAM = "username";
@@ -38,7 +38,7 @@ public class BasicLoginController extends AbstractLoginController {
 	public ModelAndView doSignIn(HttpServletRequest request) {
 		String username = request.getParameter(USERNAME_PARAM);
 		User user = getLoginService().findUserByNicknameOrEmail(username);
-		ModelAndView mav = new ModelAndView("/login/signin");
+		ModelAndView mav = new ModelAndView("/login/basic/signin");
 
 		if (user != null) {
 			// user found; perform sign-in

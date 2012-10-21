@@ -34,7 +34,7 @@ import mojo.web.openid.OpenIDService.RequestData;
 import mojo.web.openid.OpenIDService.ResponseData;
 
 @Controller
-@RequestMapping("/openid")
+@RequestMapping("/login/openid")
 public class OpenIDLoginController extends AbstractLoginController {
 
 	private static final String DISCOVERY_ATTR = "openidDiscovery";
@@ -71,7 +71,7 @@ public class OpenIDLoginController extends AbstractLoginController {
 
 		if (requestData.isVersion2()) {
 			// OpenID v2 - use html form redirect
-			ModelAndView mav = new ModelAndView("/openid/setup");
+			ModelAndView mav = new ModelAndView("/login/openid/setup");
 			mav.addObject("endpoint", requestData.getEndpoint());
 			mav.addObject("parameters", requestData.getParameters());
 			return mav;
@@ -98,7 +98,7 @@ public class OpenIDLoginController extends AbstractLoginController {
 
 		// look up for existing user
 		User user = getLoginService().findUserByOpenID(responseData.getIdentifier());
-		ModelAndView mav = new ModelAndView("/openid/verify");
+		ModelAndView mav = new ModelAndView("/login/openid/verify");
 
 		if (user != null) {
 			// user found; perform sign-in
@@ -174,6 +174,6 @@ public class OpenIDLoginController extends AbstractLoginController {
 		realm = realm.substring(0, realm.length() - 1);
 		String contextPath = request.getContextPath();
 		String servletPath = request.getServletPath();
-		return realm + contextPath + servletPath + "/openid/verify";
+		return realm + contextPath + servletPath + "/login/openid/verify";
 	}
 }
