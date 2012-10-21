@@ -29,6 +29,6 @@ public class NodeValidation extends Validation<Node> {
 			return;
 		}
 
-		checkEmpty(entity.getName(), errors, "Node.name.empty");
+		checkEmpty(entity.getCode(), errors, "Node.code.empty");
 	}
 }

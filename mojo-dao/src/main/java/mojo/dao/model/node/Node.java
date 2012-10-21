@@ -38,7 +38,7 @@ public class Node extends AbstractRule implements Hierarchical {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
+	private String code;
 	private String action;
 
 	private Node parentNode;
@@ -51,16 +51,16 @@ public class Node extends AbstractRule implements Hierarchical {
 	}
 
 	/**
-	 * Unique name identifier, <br>
+	 * Unique code identifier, <br>
 	 * relative to the parent context.
 	 */
 	@Column(nullable = false)
-	public String getName() {
-		return name;
+	public String getCode() {
+		return code;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class Node extends AbstractRule implements Hierarchical {
 		return childNodes != null && !childNodes.isEmpty();
 	}
 
-	@MapKey(name = "name")
+	@MapKey(name = "code")
 	@OneToMany(mappedBy = "parentNode",
 	cascade = { CascadeType.REMOVE })
 	public Map<String, Node> getChildNodes() {
@@ -120,18 +120,18 @@ public class Node extends AbstractRule implements Hierarchical {
 	/**
 	 * Helper method.
 	 */
-	public Node getChildNode(String name) {
-		return getChildNodes().get(name);
+	public Node getChildNode(String code) {
+		return getChildNodes().get(code);
 	}
 
 	/**
 	 * Helper method.
 	 */
-	public Node createChildNode(String name) {
+	public Node createChildNode(String code) {
 		Node node = new Node();
-		getChildNodes().put(name, node);
+		getChildNodes().put(code, node);
 		node.setParentNode(this);
-		node.setName(name);
+		node.setCode(code);
 		return node;
 	}
 

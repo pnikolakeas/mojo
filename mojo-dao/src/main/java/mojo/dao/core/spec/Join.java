@@ -58,17 +58,4 @@ public class Join implements Serializable {
 	public void setProperty(String property) {
 		this.property = property;
 	}
-
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-
-		if (type != null) {
-			sb.append(type);
-		}
-
-		sb.append(" join fetch ");
-		sb.append(property);
-		return sb.toString();
-	}
 }

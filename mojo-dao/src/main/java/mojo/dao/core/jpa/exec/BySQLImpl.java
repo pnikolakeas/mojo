@@ -34,7 +34,7 @@ public class BySQLImpl implements JpaFilterExecutor {
 		BySQL by = (BySQL) spec;
 		String criteria = by.getCriteria();
 
-		if (criteria != null && !criteria.isEmpty()) {
+		if (criteria != null) {
 			sb.append(criteria);
 			params.putAll(by.getParams());
 		}

@@ -19,7 +19,7 @@ package mojo.dao.core.spec;
 import java.io.Serializable;
 
 /**
- * Query specification.
+ * Base query specification.
  * 
  * @param <E> the entity type
  */

@@ -16,7 +16,7 @@ create table mojo_node (
 --	AbstractRule
 	permissions         int not null,
 --	Node
-	name                varchar(255) not null,
+	code                varchar(255) not null,
 	action              varchar(255),
 	parentNode_id       int,
 	terminal            bit not null,
@@ -125,7 +125,7 @@ alter table mojo_node add index (updateUser_id);
 alter table mojo_node add foreign key (updateUser_id) references mojo_user(id);
 alter table mojo_node add index (parentNode_id);
 alter table mojo_node add foreign key (parentNode_id) references mojo_node(id) on delete cascade;
-alter table mojo_node add unique key (parentNode_id, name);
+alter table mojo_node add unique key (parentNode_id, code);
 
 alter table mojo_node_rule add index (createUser_id);
 alter table mojo_node_rule add foreign key (createUser_id) references mojo_user(id);

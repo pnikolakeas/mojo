@@ -57,14 +57,14 @@ public class NodeService extends DataService<Node> {
 			// check parent node permission
 			if (serverParent != null && !permissionRsolver.hasWriteAccess(serverParent)) {
 				StringBuilder sb = new StringBuilder("Parent node permission violation;");
-				sb.append(" #" + serverParent.getId() + " " + serverParent.getName());
+				sb.append(" #" + serverParent.getId() + " " + serverParent.getCode());
 				throw new DataException(sb.toString());
 			}
 
 			// check node permission
 			if (!permissionRsolver.hasWriteAccess(serverNode)) {
 				StringBuilder sb = new StringBuilder("Node permission violation;");
-				sb.append(" #" + serverNode.getId() + " " + serverNode.getName());
+				sb.append(" #" + serverNode.getId() + " " + serverNode.getCode());
 				throw new DataException(sb.toString());
 			}
 		}
@@ -102,7 +102,7 @@ public class NodeService extends DataService<Node> {
 				// check parent node permission
 				if (!permissionRsolver.hasWriteAccess(serverParent)) {
 					StringBuilder sb = new StringBuilder("Parent node permission violation;");
-					sb.append(" #" + serverParent.getId() + " " + serverParent.getName());
+					sb.append(" #" + serverParent.getId() + " " + serverParent.getCode());
 					throw new DataException(sb.toString());
 				}
 			}

@@ -56,7 +56,7 @@ public class NodeTest extends BaseTest {
 		super.setUp();
 
 		rootNode = new Node();
-		rootNode.setName("root");
+		rootNode.setCode("root");
 		rootNode.setPermissions(Permissions.ALL);
 
 		TransactionTemplate template = createTransactionTemplate();
@@ -90,7 +90,7 @@ public class NodeTest extends BaseTest {
 		try {
 			log("Creating rootNode");
 			rootNode = new Node();
-			rootNode.setName("alt-root-node");
+			rootNode.setCode("alt-root-node");
 			rootNode.setPermissions(Permissions.ALL);
 			nodeService.insert(rootNode);
 		}
@@ -103,7 +103,7 @@ public class NodeTest extends BaseTest {
 
 		try {
 			log("Modifying rootNode #" + rootNode.getId());
-			rootNode.setName("modified-root-node");
+			rootNode.setCode("modified-root-node");
 			rootNode = nodeService.update(rootNode);
 		}
 		catch (Exception e) {
@@ -137,7 +137,7 @@ public class NodeTest extends BaseTest {
 		assertEqualNodes(node, loadedNode);
 
 		log("Modifying node #" + node.getId());
-		node.setName("modified-child-node");
+		node.setCode("modified-child-node");
 		Node updatedNode = nodeService.update(node);
 		assertEqualNodes(node, updatedNode);
 
@@ -244,7 +244,7 @@ public class NodeTest extends BaseTest {
 		else {
 			assertNotNull("null node", act);
 			assertEquals("incorrect node.id", exp.getId(), act.getId());
-			assertEquals("incorrect node.name", exp.getName(), act.getName());
+			assertEquals("incorrect node.code", exp.getCode(), act.getCode());
 			assertEquals("incorrect node.permissions", exp.getPermissions(), act.getPermissions());
 			assertEqualEntities(exp.getParentNode(), act.getParentNode());
 		}

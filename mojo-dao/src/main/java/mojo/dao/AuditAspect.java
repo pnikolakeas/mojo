@@ -26,9 +26,6 @@ import mojo.dao.core.spec.Insert;
 import mojo.dao.core.spec.Update;
 import mojo.dao.model.AuditableEntity;
 
-/**
- * DAO auditing aspect.
- */
 @Component
 public class AuditAspect {
 
