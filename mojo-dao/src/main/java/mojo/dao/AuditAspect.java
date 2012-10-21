@@ -18,6 +18,10 @@ package mojo.dao;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import mojo.dao.core.spec.Insert;
 import mojo.dao.core.spec.Update;
 import mojo.dao.model.AuditableEntity;
@@ -25,24 +29,19 @@ import mojo.dao.model.AuditableEntity;
 /**
  * DAO auditing aspect.
  */
+@Component
 public class AuditAspect {
 
-	private AuditContext context;
-
-	public AuditContext getContext() {
-		return context;
-	}
-
-	public void setContext(AuditContext context) {
-		this.context = context;
-	}
+	@Autowired
+	@Qualifier("auditContext")
+	private AuditContext auditContext;
 
 	public void insert(Insert<?> query) {
 		Object object = query.getEntity();
 
 		if (object instanceof AuditableEntity) {
 			AuditableEntity entity = (AuditableEntity) object;
-			entity.setCreateUser(getContext().getUser());
+			entity.setCreateUser(auditContext.getUser());
 			entity.setCreateDate(new Date());
 		}
 	}
@@ -52,7 +51,7 @@ public class AuditAspect {
 
 		if (object instanceof AuditableEntity) {
 			AuditableEntity entity = (AuditableEntity) object;
-			entity.setUpdateUser(getContext().getUser());
+			entity.setUpdateUser(auditContext.getUser());
 			entity.setUpdateDate(new Date());
 		}
 	}
