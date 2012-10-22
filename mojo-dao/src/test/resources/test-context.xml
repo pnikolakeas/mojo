@@ -3,8 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<import resource="classpath:mojo-repositories.xml" />
-	<import resource="classpath:mojo-services.xml" />
+	<import resource="classpath:mojo-dao.xml" />
 
 	<bean id="auditContext" class="mojo.dao.test.util.MockContext" />
 
@@ -20,7 +19,7 @@
 		</property>
 	</bean>
 
-	<!-- Test Only Repositories -->
+	<!-- TEST REPOSITORIES -->
 
 	<bean id="personRepository" parent="repository">
 		<property name="entityType" value="mojo.dao.test.model.Person" />
@@ -39,7 +38,7 @@
 		<property name="inverseLink" value="true" />
 	</bean>
 
-	<!-- Test Only Services -->
+	<!-- TEST SERVICES -->
 
 	<bean id="personService" class="mojo.dao.core.DataService">
 		<property name="repository" ref="personRepository" />
