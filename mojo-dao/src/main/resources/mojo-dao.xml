@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<context:annotation-config/>
+	<context:component-scan base-package="mojo.dao" />
+
+	<!-- 7.6 Proxying mechanisms -->
+	<aop:config proxy-target-class="true">
+
+		<!-- 7.2.3 Declaring a pointcut -->
+		<aop:pointcut id="serviceOperation" expression="execution(* *.dao..*Service.*(..))" />
+		<aop:advisor pointcut-ref="serviceOperation" advice-ref="txAdvice" />
+
+		<aop:aspect ref="auditAspect">
+			<aop:pointcut id="insertOperation" expression="execution(* *.dao..*Repository.insert(..)) and args(query)" />
+			<aop:before pointcut-ref="insertOperation" method="insert" />
+		</aop:aspect>
+
+		<aop:aspect ref="auditAspect">
+			<aop:pointcut id="updateOperation" expression="execution(* *.dao..*Repository.update(..)) and args(query)" />
+			<aop:before pointcut-ref="updateOperation" method="update" />
+		</aop:aspect>
+
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="fetch*" read-only="true" />
+			<tx:method name="select" read-only="true" />
+			<tx:method name="insert" />
+			<tx:method name="update" />
+			<tx:method name="delete" />
+			<tx:method name="create*" />
+			<tx:method name="modify*" />
+			<tx:method name="remove*" />
+			<tx:method name="persist" />
+
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<!-- NOTE: entityManagerFactory definition omitted -->
+	</bean>
+
+	<!-- generic repository (untyped - operates on anything) -->
+	<bean id="repository" class="mojo.dao.core.jpa.JpaRepository" />
+
+	<!-- generic detail repository (abstract definition only) -->
+	<bean id="subRepository" class="mojo.dao.core.jpa.JpaSubRepository" abstract="true" />
+
+	<!-- GENERIC REPOSITORIES -->
+
+	<bean id="nodeRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.node.Node" />
+	</bean>
+
+	<bean id="nodeRuleRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.node.NodeRule" />
+	</bean>
+
+	<bean id="postRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.post.Post" />
+	</bean>
+
+	<bean id="countryRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.user.Country" />
+	</bean>
+
+	<bean id="languageRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.user.Language" />
+	</bean>
+
+	<bean id="userRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.user.User" />
+	</bean>
+
+	<bean id="userGroupRepository" parent="repository">
+		<property name="entityType" value="mojo.dao.model.user.UserGroup" />
+	</bean>
+
+	<!-- GENERIC SERVICES -->
+
+	<bean id="nodeService" class="mojo.dao.service.node.NodeService">
+		<property name="repository" ref="nodeRepository" />
+		<property name="validation">
+			<bean class="mojo.dao.validation.NodeValidation" />
+		</property>
+	</bean>
+
+	<bean id="nodeRuleService" class="mojo.dao.core.DataService">
+		<property name="repository" ref="nodeRuleRepository" />
+		<property name="validation">
+			<bean class="mojo.dao.validation.NodeRuleValidation" />
+		</property>
+	</bean>
+
+	<bean id="postService" class="mojo.dao.core.DataService">
+		<property name="repository" ref="postRepository" />
+		<property name="validation">
+			<bean class="mojo.dao.validation.PostValidation" />
+		</property>
+	</bean>
+
+	<bean id="countryService" class="mojo.dao.core.DataService">
+		<property name="repository" ref="countryRepository" />
+		<property name="validation">
+			<bean class="mojo.dao.validation.CountryValidation" />
+		</property>
+	</bean>
+
+	<bean id="languageService" class="mojo.dao.core.DataService">
+		<property name="repository" ref="languageRepository" />
+		<property name="validation">
+			<bean class="mojo.dao.validation.LanguageValidation" />
+		</property>
+	</bean>
+
+	<bean id="userService" class="mojo.dao.core.DataService">
+		<property name="repository" ref="userRepository" />
+		<property name="validation">
+			<bean class="mojo.dao.validation.UserValidation" />
+		</property>
+	</bean>
+
+	<bean id="userGroupService" class="mojo.dao.core.DataService">
+		<property name="repository" ref="userGroupRepository" />
+		<property name="validation">
+			<bean class="mojo.dao.validation.UserGroupValidation" />
+		</property>
+	</bean>
+
+</beans>
